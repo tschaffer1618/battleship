@@ -25,13 +25,34 @@ class Cell
     @fired_upon
   end
 
-def fire_upon
-  @fired_upon = true
-  if @ship != nil
-    @ship.health -= 1
-  end 
+  def fire_upon
+    @fired_upon = true
+    if @ship != nil
+      @ship.health -= 1
+    end
+  end
 
-end
+  def render(show_ship = false)
+    if show_ship == false
+      if fired_upon? == false
+        "."
+      elsif fired_upon? == true && empty? == true
+        "M"
+      elsif fired_upon? == true && @ship.sunk? == false
+        "H"
+      else
+        "X"
+      end
+    else
+      if @ship != nil
+        "S"
+      else
+        "."
+      end
+    end
+
+
+  end
 
 
 end
