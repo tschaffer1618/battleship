@@ -1,7 +1,7 @@
 class Board
   attr_reader :cells
-def initialize
-  @cells = {
+  def initialize
+    @cells = {
             "A1" => Cell.new("A1"),
             "A2" => Cell.new("A2"),
             "A3" => Cell.new("A3"),
@@ -19,11 +19,25 @@ def initialize
             "D3" => Cell.new("D3"),
             "D4" => Cell.new("D4")
             }
-end
+  end
 
-def valid_coordinate?(coordinate)
-   @cells.keys.include?(coordinate)
- end
+  def valid_coordinate?(coordinate)
+    @cells.keys.include?(coordinate)
+  end
+
+  def valid_placement?(ship, array_of_coordinates)
+    cell_numbers = array_of_coordinates.map do |coordinate|
+      coordinate.ord + coordinate[1].to_i
+    end
+    cell_numbers.sort!
+
+    if ship.length != array_of_coordinates.length
+      false
+    # elsif cells aren't consecutive
+      #false
+    end
+
+  end
 
 
 end
