@@ -39,5 +39,15 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_placement?(@submarine, ["A1", "C1"])
   end
 
+  def test_it_is_not_diagnol
+    assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2", "C1"])
+    assert_equal false, @board.valid_placement?(@submarine, ["B4", "D3"])
+  end
+
+  def test_if_is_valid_placement
+    assert_equal true, @board.valid_placement?(@cruiser, ["B2", "B3", "B4"])
+    assert_equal true, @board.valid_placement?(@submarine, ["D1", "C1"])
+  end
+
 
 end
