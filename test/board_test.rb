@@ -39,7 +39,7 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_placement?(@submarine, ["A1", "C1"])
   end
 
-  def test_it_is_not_diagnol
+  def test_it_is_not_diagonal
     assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2", "C1"])
     assert_equal false, @board.valid_placement?(@submarine, ["B4", "D3"])
   end
@@ -59,6 +59,27 @@ class BoardTest < Minitest::Test
     assert_equal @cruiser, cell_3.ship
     assert_equal true, cell_3.ship == cell_2.ship
   end
+
+  def test_if_overlapping_ship_placement_is_valid
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    assert_equal false, @board.valid_placement?(@submarine, ["A1", "B1"])
+  end
+
+  def test_render
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    assert_equal "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n", @board.render
+  end
+
+  def test_render_true
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    require 'pry'; binding.pry
+
+    assert_equal "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n", @board.render(true)
+  end
+
+  #more tests for M, H, X go here
+
+
 
 
 end

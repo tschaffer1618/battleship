@@ -44,10 +44,16 @@ class Cell
         "X"
       end
     else
-      if @ship != nil
+      if @ship != nil && fired_upon? == false
         "S"
-      else
+      elsif fired_upon? == false
         "."
+      elsif fired_upon? == true && empty? == true
+        "M"
+      elsif fired_upon? == true && @ship.sunk? == false
+        "H"
+      else
+        "X"
       end
     end
 
