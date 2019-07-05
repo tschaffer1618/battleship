@@ -35,7 +35,7 @@ class CellTest < Minitest::Test
     assert_equal true, @cell_1.fired_upon?
   end
 
-  def test_if_fired_upon_ship_looses_health
+  def test_if_fired_upon_ship_loses_health
     @cell_1.place_ship(@cruiser)
     @cell_1.fire_upon
     assert_equal 2, @cell_1.ship.health
@@ -74,6 +74,4 @@ class CellTest < Minitest::Test
     @cell_2.place_ship(@cruiser)
     assert_equal "S", @cell_2.render(true)
   end
-
-
 end

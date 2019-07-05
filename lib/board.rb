@@ -36,16 +36,42 @@ class Board
     numbers = array_of_coordinates.map do |coordinate|
       coordinate[1]
     end
-
+    cell_contents = array_of_coordinates.map do |coordinate|
+      @cells[coordinate].ship.class
+    end
     if ship.length != array_of_coordinates.length
       false
     elsif consecutive == false
       false
     elsif letters.uniq.length != 1 && numbers.uniq.length != 1
       false
+    elsif cell_contents.include?(Ship)
+      false
     else
-      true 
+      true
     end
 
+  end
+
+  def place(ship, array_of_coordinates)
+    array_of_coordinates.each do |coordinate|
+      @cells[coordinate].place_ship(ship)
+    end
+  end
+
+  def render(show_ship = false)
+    if show_ship == false
+      "  1 2 3 4 \n" +
+      "A #{@cells["A1"].render} #{@cells["A2"].render} #{@cells["A3"].render} #{@cells["A4"].render} \n" +
+      "B #{@cells["B1"].render} #{@cells["B2"].render} #{@cells["B3"].render} #{@cells["B4"].render} \n" +
+      "C #{@cells["C1"].render} #{@cells["C2"].render} #{@cells["C3"].render} #{@cells["C4"].render} \n" +
+      "D #{@cells["D1"].render} #{@cells["D2"].render} #{@cells["D3"].render} #{@cells["D4"].render} \n"
+    elsif show_ship == true
+      "  1 2 3 4 \n" +
+      "A #{@cells["A1"].render(true)} #{@cells["A2"].render(true)} #{@cells["A3"].render(true)} #{@cells["A4"].render(true)} \n" +
+      "B #{@cells["B1"].render(true)} #{@cells["B2"].render(true)} #{@cells["B3"].render(true)} #{@cells["B4"].render(true)} \n" +
+      "C #{@cells["C1"].render(true)} #{@cells["C2"].render(true)} #{@cells["C3"].render(true)} #{@cells["C4"].render(true)} \n" +
+      "D #{@cells["D1"].render(true)} #{@cells["D2"].render(true)} #{@cells["D3"].render(true)} #{@cells["D4"].render(true)} \n"
+    end
   end
 end
