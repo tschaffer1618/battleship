@@ -29,15 +29,13 @@ class Board
     cell_numbers = array_of_coordinates.map do |coordinate|
       coordinate.ord + coordinate[1].to_i
     end
-    cell_numbers.sort!
+    consecutive = cell_numbers.sort.each_cons(2).all?{|x,y| x ==y-1}
 
     if ship.length != array_of_coordinates.length
       false
-    # elsif cells aren't consecutive
-      #false
+    elsif consecutive == false
+      false
     end
 
   end
-
-
 end
