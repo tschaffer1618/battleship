@@ -1,4 +1,4 @@
-class MainMenu
+class Game
   def display_menu
     puts "**** Welcome to BATTLESHIP! ****"
     user_input = ""
