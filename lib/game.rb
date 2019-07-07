@@ -4,7 +4,7 @@ class Game
     @cpu = ComputerPlayer.new
     @human = HumanPlayer.new
   end
-  
+
   def start_the_game
     puts "**** Welcome to BATTLESHIP! ****"
     user_input = ""
@@ -22,4 +22,7 @@ class Game
       end
     end
   end
+
+  def take_turn
+  end 
 end
