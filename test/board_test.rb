@@ -15,7 +15,7 @@ class BoardTest < Minitest::Test
     assert_instance_of Board, @board
   end
 
-  def test_cells
+  def test_board_has_cells
     assert_equal 16, @board.cells.length
     assert_equal Hash, @board.cells.class
     assert_equal Cell, @board.cells["A1"].class
@@ -29,7 +29,7 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_coordinate?("A22")
   end
 
-  def test_placement_for_length
+  def test_placement_is_correct_length
     assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2"])
     assert_equal false, @board.valid_placement?(@submarine, ["A2", "A3", "A4"])
   end
@@ -39,12 +39,12 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_placement?(@submarine, ["A1", "C1"])
   end
 
-  def test_it_is_not_diagonal
+  def test_placement_is_not_diagonal
     assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2", "C1"])
     assert_equal false, @board.valid_placement?(@submarine, ["B4", "D3"])
   end
 
-  def test_if_is_valid_placement
+  def test_valid_placement
     assert_equal true, @board.valid_placement?(@cruiser, ["B2", "B3", "B4"])
     assert_equal true, @board.valid_placement?(@submarine, ["D1", "C1"])
   end
@@ -68,13 +68,24 @@ class BoardTest < Minitest::Test
   def test_render
     @board.place(@cruiser, ["A1", "A2", "A3"])
     assert_equal "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n", @board.render
+    @board.cells["A1"].fire_upon
+    assert_equal "  1 2 3 4 \nA H . . . \nB . . . . \nC . . . . \nD . . . . \n", @board.render
+    @board.cells["A4"].fire_upon
+    assert_equal "  1 2 3 4 \nA H . . M \nB . . . . \nC . . . . \nD . . . . \n", @board.render
+    @board.cells["A2"].fire_upon
+    @board.cells["A3"].fire_upon
+    assert_equal "  1 2 3 4 \nA X X X M \nB . . . . \nC . . . . \nD . . . . \n", @board.render
   end
 
   def test_render_true
     @board.place(@cruiser, ["A1", "A2", "A3"])
     assert_equal "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n", @board.render(true)
+    @board.cells["A1"].fire_upon
+    assert_equal "  1 2 3 4 \nA H S S . \nB . . . . \nC . . . . \nD . . . . \n", @board.render(true)
+    @board.cells["A4"].fire_upon
+    assert_equal "  1 2 3 4 \nA H S S M \nB . . . . \nC . . . . \nD . . . . \n", @board.render(true)
+    @board.cells["A2"].fire_upon
+    @board.cells["A3"].fire_upon
+    assert_equal "  1 2 3 4 \nA X X X M \nB . . . . \nC . . . . \nD . . . . \n", @board.render(true)
   end
-
-  #more tests for M, H, X go here
-
 end
