@@ -1,5 +1,11 @@
 class Game
-  def display_menu
+  attr_reader :cpu, :human
+  def initialize
+    @cpu = ComputerPlayer.new
+    @human = HumanPlayer.new
+  end
+  
+  def start_the_game
     puts "**** Welcome to BATTLESHIP! ****"
     user_input = ""
     until user_input == "p" || user_input == "q"
