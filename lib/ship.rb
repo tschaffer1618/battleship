@@ -1,6 +1,3 @@
-# Ian mentioned that a ship should not go into negative health
-
-
 class Ship
   attr_reader :name, :length
   attr_accessor :health
@@ -21,5 +18,4 @@ class Ship
   def hit
     @health -= 1
   end
-
 end
