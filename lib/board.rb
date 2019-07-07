@@ -50,7 +50,6 @@ class Board
     else
       true
     end
-
   end
 
   def place(ship, array_of_coordinates)
