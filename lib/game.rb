@@ -50,7 +50,7 @@ class Game
     elsif @cpu.computer_board.cells[guessed_coordinate].render == "H"
       puts "You hit the #{@cpu.computer_board.cells[guessed_coordinate].ship.name} at #{guessed_coordinate}!"
     else
-      puts "You sunk the #{@cpu.computer_board.cells[guessed_coordinate].ship.name}!"
+      puts "You sank the #{@cpu.computer_board.cells[guessed_coordinate].ship.name}!"
     end
     @cpu.computer_board
   end
@@ -66,7 +66,7 @@ class Game
     elsif @human.human_board.cells[guessed_coordinate].render == "H"
       puts "The computer hit your #{@human.human_board.cells[guessed_coordinate].ship.name} at #{guessed_coordinate}!"
     else
-      puts "The computer sunk your #{@human.human_board.cells[guessed_coordinate].ship.name}!"
+      puts "The computer sank your #{@human.human_board.cells[guessed_coordinate].ship.name}!"
     end
     @human.human_board
   end
@@ -77,6 +77,14 @@ class Game
     computer_turn
   end
 
+  def play_the_game
+    @cpu.place_ships
+    @human.place_ships
+    until @human.ships.all? { |ship| ship.sunk? } || @cpu.ships.all? { |ship| ship.sunk? }
+      take_turn
+    end
+  end
+
   def end_the_game
     show_boards
     if @human.ships.all? { |ship| ship.sunk? }
@@ -84,7 +92,6 @@ class Game
     else
       puts "You are victorious! Great job!"
     end
-    start_the_game
   end
 
   end

@@ -14,9 +14,9 @@ class ComputerPlayer
           random_coord[0] == key[0]
         end
         possible_column = @computer_board.cells.keys.find_all do |key|
-          random_coord[0] == key[0]
+          random_coord[1] == key[1]
         end
-        selected_line = [possible_column].sample
+        selected_line = [possible_row, possible_column].sample
         possible_coordinates = selected_line.each_cons(ship.length).map { |group| group}
         selected_coordinates = possible_coordinates.sample
       end
