@@ -18,10 +18,10 @@ class HumanPlayer
       user_selections_array = user_selections.split(" ")
       until user_selections_array.all? { |coordinate| @human_board.valid_coordinate?(coordinate) } == true &&
         @human_board.valid_placement?(ship, user_selections_array) == true
-        puts "Please choose valid tiles or exit the game by typing 'quit'."
+        puts "Please choose valid tiles or exit the game by typing 'q' to quit."
         print "> "
         user_selections = gets.chomp.upcase
-        if user_selections == "quit"
+        if user_selections == "Q"
           exit!
         end
         user_selections_array = user_selections.split(" ")
