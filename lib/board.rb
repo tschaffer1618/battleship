@@ -25,27 +25,38 @@ class Board
     @cells.keys.include?(coordinate)
   end
 
-  def valid_placement?(ship, array_of_coordinates)
+  def consecutive?(array_of_coordinates)
     cell_numbers = array_of_coordinates.map do |coordinate|
       coordinate.ord + coordinate[1].to_i
     end
-    consecutive = cell_numbers.sort.each_cons(2).all?{|x,y| x ==y-1}
-    letters = array_of_coordinates.map do |coordinate|
-      coordinate[0]
-    end
+    cell_numbers.sort.each_cons(2).all? { |x, y| x == y - 1 }
+  end
+
+  def linear?(array_of_coordinates)
     numbers = array_of_coordinates.map do |coordinate|
       coordinate[1]
     end
+    letters = array_of_coordinates.map do |coordinate|
+      coordinate[0]
+    end
+    letters.uniq.length == 1 || numbers.uniq.length == 1
+  end
+
+  def unoccupied?(array_of_coordinates)
     cell_contents = array_of_coordinates.map do |coordinate|
       @cells[coordinate].ship.class
     end
+    !cell_contents.include?(Ship)
+  end
+
+  def valid_placement?(ship, array_of_coordinates)
     if ship.length != array_of_coordinates.length
       false
-    elsif consecutive == false
+    elsif consecutive?(array_of_coordinates) == false
       false
-    elsif letters.uniq.length != 1 && numbers.uniq.length != 1
+    elsif linear?(array_of_coordinates) == false
       false
-    elsif cell_contents.include?(Ship)
+    elsif unoccupied?(array_of_coordinates) == false
       false
     else
       true
@@ -74,3 +85,4 @@ class Board
     end
   end
 end
+#  %W
