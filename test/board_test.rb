@@ -13,12 +13,24 @@ class BoardTest < Minitest::Test
 
   def test_board_exists
     assert_instance_of Board, @board
+    require 'pry'; binding.pry
   end
 
-  def test_board_has_cells
+  def test_default_board_has_16_cells
     assert_equal 16, @board.cells.length
     assert_equal Hash, @board.cells.class
     assert_equal Cell, @board.cells["A1"].class
+  end
+
+  def test_different_size_boards
+    board_2 = Board.new(7)
+    assert_equal 49, board_2.cells.length
+    assert_equal Hash, board_2.cells.class
+    assert_equal Cell, board_2.cells["A1"].class
+    board_3 = Board.new(20)
+    assert_equal 400, board_3.cells.length
+    assert_equal Hash, board_3.cells.class
+    assert_equal Cell, board_3.cells["A1"].class
   end
 
   def test_if_cell_coordinates_are_valid
