@@ -4,11 +4,11 @@ require './lib/ship/'
 require './lib/computer_player/'
 require 'minitest/autorun'
 require 'minitest/pride'
-require 'pry'
 
 class ComputerPlayerTest < Minitest::Test
   def setup
     @cpu = ComputerPlayer.new
+    @cpu.computer_board = Board.new
   end
 
   def test_if_it_exists
@@ -23,5 +23,4 @@ class ComputerPlayerTest < Minitest::Test
     cells_containing_submarine = cells_containing_ships.find_all { |cell| cell.ship.name == "submarine"}
     assert_equal 2, cells_containing_submarine.length
   end
-
 end

@@ -68,7 +68,12 @@ class Board
 
   def render(show_ship = false)
     if show_ship == false
-      first_line = "  " + @numbers.join(" ") + " \n"
+      first_line = ""
+      if @size <= 9
+        first_line = "  " + @numbers.join(" ") + " \n"
+      else
+        first_line = "  " + @numbers.first(9).join(" ") + @numbers[9..25].join("") + " \n"
+      end
       coords_by_row = @letters.map { |row| @numbers.map { |column| "#{row}#{column}" } }
       rows_1 = coords_by_row.map { |row| row.map { |coord| @cells[coord].render} }
       zipped = @letters.zip(rows_1)
@@ -76,7 +81,12 @@ class Board
       display = rows_2.map { |row| row.join(" ") + " \n" }
       first_line + display.join("")
     elsif show_ship == true
-      first_line = "  " + @numbers.join(" ") + " \n"
+      first_line = ""
+      if @size <= 9
+        first_line = "  " + @numbers.join(" ") + " \n"
+      else
+        first_line = "  " + @numbers.first(9).join(" ") + @numbers[9..25].join("") + " \n"
+      end
       coords_by_row = @letters.map { |row| @numbers.map { |column| "#{row}#{column}" } }
       rows_1 = coords_by_row.map { |row| row.map { |coord| @cells[coord].render(true)} }
       zipped = @letters.zip(rows_1)
