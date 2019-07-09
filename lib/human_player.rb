@@ -1,7 +1,8 @@
 class HumanPlayer
-  attr_reader :human_board, :ships
+  attr_reader :ships
+  attr_accessor :human_board
   def initialize
-    @human_board = Board.new
+    @human_board = nil
     @ships = [Ship.new("cruiser", 3), Ship.new("submarine", 2)]
   end
 

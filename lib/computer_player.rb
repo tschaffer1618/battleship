@@ -1,7 +1,8 @@
 class ComputerPlayer
-  attr_reader :computer_board, :ships
+  attr_reader :ships
+  attr_accessor :computer_board
   def initialize
-    @computer_board = Board.new
+    @computer_board = nil
     @ships = [Ship.new("cruiser", 3), Ship.new("submarine", 2)]
   end
 
@@ -14,7 +15,7 @@ class ComputerPlayer
           random_coord[0] == key[0]
         end
         possible_column = @computer_board.cells.keys.find_all do |key|
-          random_coord[1] == key[1]
+          random_coord[1..2] == key[1..2]
         end
         selected_line = [possible_row, possible_column].sample
         possible_coordinates = selected_line.each_cons(ship.length).map { |group| group}
@@ -24,6 +25,4 @@ class ComputerPlayer
     end
     @computer_board
   end
-
-
-  end
+end

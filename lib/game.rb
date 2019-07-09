@@ -23,6 +23,14 @@ class Game
     end
   end
 
+  def pick_board_size
+    puts "Pick the size of your square board (4-26)."
+    print "> "
+    size = gets.chomp.to_i
+    @cpu.computer_board = Board.new(size)
+    @human.human_board = Board.new(size)
+  end
+
   def show_boards
     puts "===== Computer Board ===== "
     puts @cpu.computer_board.render
@@ -94,4 +102,4 @@ class Game
     end
   end
 
-  end
+end
