@@ -13,7 +13,21 @@ class BoardTest < Minitest::Test
 
   def test_board_exists
     assert_instance_of Board, @board
-    require 'pry'; binding.pry
+  end
+
+  def test_coordinates_by_row
+    expected = [
+                ["A1", "A2", "A3", "A4"],
+                ["B1", "B2", "B3", "B4"],
+                ["C1", "C2", "C3", "C4"],
+                ["D1", "D2", "D3", "D4"]
+                ]
+    assert_equal expected, @board.coordinates_by_row
+  end
+
+  def test_all_coordinates
+    expected = %w(A1 A2 A3 A4 B1 B2 B3 B4 C1 C2 C3 C4 D1 D2 D3 D4)
+    assert_equal expected, @board.all_coordinates
   end
 
   def test_default_board_has_16_cells

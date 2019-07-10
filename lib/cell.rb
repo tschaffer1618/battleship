@@ -25,23 +25,23 @@ class Cell
 
   def render(show_ship = false)
     if show_ship == false
-      if fired_upon? == false
+      if !fired_upon?
         "."
-      elsif fired_upon? == true && empty? == true
+      elsif fired_upon? && empty?
         "M"
-      elsif fired_upon? == true && @ship.sunk? == false
+      elsif fired_upon? && !@ship.sunk?
         "H"
       else
         "X"
       end
     else
-      if @ship != nil && fired_upon? == false
+      if !empty? && !fired_upon?
         "S"
-      elsif fired_upon? == false
+      elsif !fired_upon?
         "."
-      elsif fired_upon? == true && empty? == true
+      elsif fired_upon? && empty?
         "M"
-      elsif fired_upon? == true && @ship.sunk? == false
+      elsif fired_upon? && !@ship.sunk?
         "H"
       else
         "X"

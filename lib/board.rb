@@ -8,11 +8,17 @@ class Board
     @cells = make_cells_hash
   end
 
+  def coordinates_by_row
+    @letters.map { |row| @numbers.map { |column| "#{row}#{column}" } }
+  end
+
+  def all_coordinates
+    coordinates_by_row.flatten
+  end
+
   def make_cells_hash
     @cells = {}
-    coords_by_row = @letters.map { |row| @numbers.map { |column| "#{row}#{column}" } }
-    all_coords = coords_by_row.flatten
-    all_coords.map do |coord|
+    all_coordinates.map do |coord|
       @cells[coord] = Cell.new(coord)
     end
     @cells
@@ -30,12 +36,8 @@ class Board
   end
 
   def linear?(array_of_coordinates)
-    numbers = array_of_coordinates.map do |coordinate|
-      coordinate[1..2]
-    end
-    letters = array_of_coordinates.map do |coordinate|
-      coordinate[0]
-    end
+    numbers = array_of_coordinates.map { |coordinate| coordinate[1..2] }
+    letters = array_of_coordinates.map { |coordinate| coordinate[0] }
     letters.uniq.length == 1 || numbers.uniq.length == 1
   end
 
@@ -49,11 +51,11 @@ class Board
   def valid_placement?(ship, array_of_coordinates)
     if ship.length != array_of_coordinates.length
       false
-    elsif consecutive?(array_of_coordinates) == false
+    elsif !consecutive?(array_of_coordinates)
       false
-    elsif linear?(array_of_coordinates) == false
+    elsif !linear?(array_of_coordinates)
       false
-    elsif unoccupied?(array_of_coordinates) == false
+    elsif !unoccupied?(array_of_coordinates)
       false
     else
       true
@@ -66,33 +68,28 @@ class Board
     end
   end
 
+  def first_line
+    if @size <= 9
+      "  " + @numbers.join(" ") + " \n"
+    else
+      "  " + @numbers.first(9).join(" ") + @numbers[9..25].join("") + " \n"
+    end 
+  end
+
+  def other_lines(rows)
+    zipped = @letters.zip(rows)
+    rows_regrouped = zipped.flatten.each_slice(@size + 1).map { |group| group }
+    display = rows_regrouped.map { |row| row.join(" ") + " \n" }
+    display.join("")
+  end
+
   def render(show_ship = false)
     if show_ship == false
-      first_line = ""
-      if @size <= 9
-        first_line = "  " + @numbers.join(" ") + " \n"
-      else
-        first_line = "  " + @numbers.first(9).join(" ") + @numbers[9..25].join("") + " \n"
-      end
-      coords_by_row = @letters.map { |row| @numbers.map { |column| "#{row}#{column}" } }
-      rows_1 = coords_by_row.map { |row| row.map { |coord| @cells[coord].render} }
-      zipped = @letters.zip(rows_1)
-      rows_2 = zipped.flatten.each_slice(@size + 1).map { |group| group }
-      display = rows_2.map { |row| row.join(" ") + " \n" }
-      first_line + display.join("")
-    elsif show_ship == true
-      first_line = ""
-      if @size <= 9
-        first_line = "  " + @numbers.join(" ") + " \n"
-      else
-        first_line = "  " + @numbers.first(9).join(" ") + @numbers[9..25].join("") + " \n"
-      end
-      coords_by_row = @letters.map { |row| @numbers.map { |column| "#{row}#{column}" } }
-      rows_1 = coords_by_row.map { |row| row.map { |coord| @cells[coord].render(true)} }
-      zipped = @letters.zip(rows_1)
-      rows_2 = zipped.flatten.each_slice(@size + 1).map { |group| group }
-      display = rows_2.map { |row| row.join(" ") + " \n" }
-      first_line + display.join("")
+      rows = coordinates_by_row.map { |row| row.map { |coord| @cells[coord].render} }
+      first_line + other_lines(rows)
+    else
+      rows = coordinates_by_row.map { |row| row.map { |coord| @cells[coord].render(true)} }
+      first_line + other_lines(rows)
     end
   end
 end
