@@ -57,15 +57,15 @@ class Game
 
   def valid_board_size?(size)
     longest_ship = @human.ships.max_by { |ship| ship.length }
-    size >= longest_ship.length && size <= 26
+    size >= longest_ship.length && size <= 26 && size >= @human.ships.length * 2
   end
 
   def pick_board_size
     size = 0
     puts "How many rows and columns would you like on your board?"
-    puts "If you are playing with 2 ships, we recommend 4."
-    puts "If you are playing with 3 ships, we recommend 6."
-    puts "If you are playing with 4 ships, we recommend 8."
+    puts "If you are playing with 2 ships, pick at least 4."
+    puts "If you are playing with 3 ships, pick at least 6."
+    puts "If you are playing with 4 ships, pick at least 8."
     puts "You get the idea! Just multiply the number of ships by 2!"
     until valid_board_size?(size)
       print "> "
@@ -85,19 +85,24 @@ class Game
     puts @human.human_board.render(true)
   end
 
- def human_turn
-    puts "Enter the coordinate for your shot."
-    print "> "
-    guessed_coordinate = gets.chomp.upcase
-    until @cpu.computer_board.valid_coordinate?(guessed_coordinate) == true &&
-      @cpu.computer_board.cells[guessed_coordinate].fired_upon? == false
-      if @cpu.computer_board.valid_coordinate?(guessed_coordinate) == false
-        puts "Please choose a valid coordinate."
-      elsif @cpu.computer_board.cells[guessed_coordinate].fired_upon? == true
-        puts "You have already fired on that spot. Please choose another coordinate."
-      end
+  def human_ready_to_fire?(guessed_coordinate)
+    @cpu.computer_board.valid_coordinate?(guessed_coordinate) &&
+      !@cpu.computer_board.cells[guessed_coordinate].fired_upon?
+  end
+
+  def human_turn
+    guessed_coordinate = " "
+    until human_ready_to_fire?(guessed_coordinate)
+      puts "Enter the coordinate for your shot."
       print "> "
       guessed_coordinate = gets.chomp.upcase
+      if !@cpu.computer_board.valid_coordinate?(guessed_coordinate)
+        puts "Please choose a valid coordinate."
+      elsif @cpu.computer_board.cells[guessed_coordinate].fired_upon?
+        puts "You have already fired on that spot. Please choose another coordinate."
+      else
+        break
+      end
     end
     @cpu.computer_board.cells[guessed_coordinate].fire_upon
     if @cpu.computer_board.cells[guessed_coordinate].render == "M"
@@ -110,9 +115,14 @@ class Game
     @cpu.computer_board
   end
 
+  def computer_ready_to_fire?(guessed_coordinate)
+    @human.human_board.valid_coordinate?(guessed_coordinate) &&
+      !@human.human_board.cells[guessed_coordinate].fired_upon?
+  end
+
   def computer_turn
-    guessed_coordinate = @human.human_board.cells.keys.sample
-    until @human.human_board.valid_coordinate?(guessed_coordinate) == true && @human.human_board.cells[guessed_coordinate].fired_upon? == false
+    guessed_coordinate = " "
+    until computer_ready_to_fire?(guessed_coordinate)
       guessed_coordinate = @human.human_board.cells.keys.sample
     end
     @human.human_board.cells[guessed_coordinate].fire_upon
