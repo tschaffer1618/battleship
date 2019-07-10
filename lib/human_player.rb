@@ -13,8 +13,8 @@ class HumanPlayer
 
   def place_ships
     puts "The computer ships have been placed. Now you can place yours!"
-    puts @human_board.render
     puts "Please type your selections in this format: A1 A2 A3 "
+    puts @human_board.render
     @ships.each do |ship|
       puts "Let's place the #{ship.name}."
       puts "The #{ship.name} is #{ship.length} tiles long."
